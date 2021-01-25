@@ -3,6 +3,7 @@
 ## Table of Contents
 
 1. [Installation](#installation)
+2. [License](#license)
 
 
 
@@ -21,3 +22,9 @@
 ```
 $ mvn install
 ```
+
+
+
+## License
+
+This project is licensed under the [MIT License](https://github.com/TASSIA710/event-api/blob/main/LICENSE).
