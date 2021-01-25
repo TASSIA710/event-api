@@ -1,4 +1,15 @@
-# Event API
+<h1 align="center">Event API</h1>
+<p align="center">Simple event handling API for Java.</p>
+
+<p align="center">
+	<img src="https://img.shields.io/github/license/TASSIA710/event-api?label=License" alt="LICENSE">
+	<img src="https://img.shields.io/github/workflow/status/TASSIA710/event-api/Java%20CI?label=Java%20CI">
+	<img src="https://img.shields.io/github/workflow/status/TASSIA710/event-api/CodeQL?label=CodeQL">
+	<img src="https://img.shields.io/github/v/release/TASSIA710/event-api?label=Stable">
+	<img src="https://img.shields.io/github/v/release/TASSIA710/event-api?label=Preview&include_prereleases">
+</p>
+
+
 
 ## Table of Contents
 
@@ -31,7 +42,7 @@ public class YourEventListener implements EventListener<Event> {
 ```
 
 Register the listener:
-```jshelllanguage
+```java
 import net.tassia.event.EventManager;
 
 // ...
@@ -45,7 +56,7 @@ manager.registerListener(Event.class, new YourEventListener());
 ### Calling events
 
 Call an event object:
-```jshelllanguage
+```java
 import net.tassia.event.EventManager;
 
 // ...
@@ -95,7 +106,7 @@ public class SendStringEvent extends Event implements Cancellable {
 ```
 
 Call your event:
-```jshelllanguage
+```java
 // Call the event
 SendStringEvent event = new SendStringEvent("Hello World!");
 eventManager.callEvent(event);
