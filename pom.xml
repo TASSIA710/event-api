@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.tassia</groupId>
 	<artifactId>event-api</artifactId>
-	<version>1.0.0-R0.1</version>
+	<version>1.0.0-R0.2</version>
 	<name>Event API</name>
 	<description>Simple event handling API for Java.</description>
 
