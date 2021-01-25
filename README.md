@@ -31,7 +31,7 @@ public class YourEventListener implements EventListener<Event> {
 ```
 
 Register the listener:
-```jshelllanguage
+```java
 import net.tassia.event.EventManager;
 
 // ...
@@ -45,7 +45,7 @@ manager.registerListener(Event.class, new YourEventListener());
 ### Calling events
 
 Call an event object:
-```jshelllanguage
+```java
 import net.tassia.event.EventManager;
 
 // ...
@@ -95,7 +95,7 @@ public class SendStringEvent extends Event implements Cancellable {
 ```
 
 Call your event:
-```jshelllanguage
+```java
 // Call the event
 SendStringEvent event = new SendStringEvent("Hello World!");
 eventManager.callEvent(event);
