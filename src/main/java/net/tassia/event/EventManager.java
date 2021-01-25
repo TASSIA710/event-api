@@ -38,6 +38,10 @@ public class EventManager {
 		listeners.put(eventClass, list);
 	}
 
+	/**
+	 * Registers all listeners (public methods annotated with {@link EventHandler}) of the given object.
+	 * @param obj the object
+	 */
 	public void registerListeners(Object obj) {
 		for (Method method : obj.getClass().getMethods()) {
 			if (method.isAnnotationPresent(EventHandler.class)) {
@@ -47,6 +51,11 @@ public class EventManager {
 		}
 	}
 
+	/**
+	 * Registers a new listener for the given, {@link EventHandler} annotated method.
+	 * @param method the method
+	 * @param owner the object to invoke the method on
+	 */
 	private void registerListenerMethod(Method method, Object owner) {
 		// Method must be public for us to call it
 		if (!Modifier.isPublic(method.getModifiers())) {
