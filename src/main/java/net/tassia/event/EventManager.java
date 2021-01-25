@@ -1,5 +1,8 @@
 package net.tassia.event;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +33,48 @@ public class EventManager {
 	 * @param <E> the event
 	 */
 	public <E extends Event> void registerListener(Class<E> eventClass, EventListener<E> listener) {
+		List<EventListener<?>> list = listeners.getOrDefault(eventClass, new ArrayList<>());
+		list.add(listener);
+		listeners.put(eventClass, list);
+	}
+
+	public void registerListeners(Object obj) {
+		for (Method method : obj.getClass().getMethods()) {
+			if (method.isAnnotationPresent(EventHandler.class)) {
+				System.out.println("Registering " + method.toGenericString());
+				registerListenerMethod(method, obj);
+			}
+		}
+	}
+
+	private void registerListenerMethod(Method method, Object owner) {
+		// Method must be public for us to call it
+		if (!Modifier.isPublic(method.getModifiers())) {
+			throw new IllegalArgumentException(method.toGenericString() + " is not public.");
+		}
+
+		// Must have one argument of type Event (or sub-class of Event)
+		if (method.getParameterCount() != 1) {
+			throw new IllegalArgumentException(method.toGenericString() + " must have 1 parameter (" + method.getParameterCount() + " present)");
+		}
+		Class<? extends Event> eventClass = (Class<? extends Event>) method.getParameterTypes()[0];
+		if (!Event.class.isAssignableFrom(eventClass)) {
+			throw new IllegalArgumentException(method.toGenericString() + " should have 1 parameter of type net.tassia.Event, but "
+					+ method.getParameterTypes()[0].toGenericString() + " is present.");
+		}
+
+		// TODO: Use MethodHandles maybe?
+
+		// Create EventListener
+		EventListener<? extends Event> listener = (event) -> {
+			try {
+				method.invoke(owner, event);
+			} catch (IllegalAccessException | InvocationTargetException ex) {
+				throw new RuntimeException("Invoking EventHandler failed.", ex);
+			}
+		};
+
+		// Register EventListener
 		List<EventListener<?>> list = listeners.getOrDefault(eventClass, new ArrayList<>());
 		list.add(listener);
 		listeners.put(eventClass, list);
