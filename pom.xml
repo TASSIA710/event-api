@@ -14,6 +14,7 @@
 		</dependency>
 	</dependencies>
 	<name>Event API</name>
+	<description>Simple event handling API for Java.</description>
 
 	<distributionManagement>
 		<repository>
