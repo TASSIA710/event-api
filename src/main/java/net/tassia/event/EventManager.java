@@ -45,7 +45,6 @@ public class EventManager {
 	public void registerListeners(Object obj) {
 		for (Method method : obj.getClass().getMethods()) {
 			if (method.isAnnotationPresent(EventHandler.class)) {
-				System.out.println("Registering " + method.toGenericString());
 				registerListenerMethod(method, obj);
 			}
 		}
