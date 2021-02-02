@@ -121,16 +121,24 @@ if (!event.isCancelled()) {
 
 ## Installation
 
-1. Add dependency:
+1. Add repository:
+```xml
+<repository>
+    <id>tassia-nexus</id>
+    <url>https://nexus.tassia.net/repository/maven-public/</url>
+</repository>
+```
+
+2. Add dependency:
 ```xml
 <dependency>
-  <groupId>net.tassia</groupId>
-  <artifactId>event-api</artifactId>
-  <version>1.0.0-R0.1</version>
+    <groupId>net.tassia</groupId>
+    <artifactId>event-api</artifactId>
+    <version>1.0.0</version>
 </dependency>
 ```
 
-2. Install dependencies
+3. Install dependencies
 ```
 $ mvn install
 ```
