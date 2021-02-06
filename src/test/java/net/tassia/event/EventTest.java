@@ -9,6 +9,8 @@ public class EventTest {
 	@Test
 	public void test() {
 		EventManager manager = new EventManager();
+		manager.registerEvent(TestEvent.class);
+
 		manager.registerListener(TestEvent.class, new TestListener());
 		manager.registerListener(TestEvent.class, this::testListener);
 
