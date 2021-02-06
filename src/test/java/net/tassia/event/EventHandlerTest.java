@@ -9,6 +9,8 @@ public class EventHandlerTest {
 	@Test
 	public void test() {
 		EventManager manager = new EventManager();
+		manager.registerEvent(TestEvent.class);
+
 		manager.registerListeners(this);
 
 		manager.callEvent(new TestEvent());
