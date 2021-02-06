@@ -13,7 +13,7 @@ import java.util.Map;
  * @since EventAPI 1.0
  * @author Tassilo
  */
-public class EventManager {
+public class EventManager implements IEventManager {
 
 	private final Map<Class<?>, List<EventListener<?>>> listeners;
 
@@ -26,12 +26,7 @@ public class EventManager {
 
 
 
-	/**
-	 * Registers a new event listener for the given event class.
-	 * @param eventClass the event class
-	 * @param listener the event listener
-	 * @param <E> the event
-	 */
+	@Override
 	public <E extends Event> void registerListener(Class<E> eventClass, EventListener<E> listener) {
 		List<EventListener<?>> list = listeners.getOrDefault(eventClass, new ArrayList<>());
 		list.add(listener);
@@ -55,6 +50,7 @@ public class EventManager {
 	 * @param method the method
 	 * @param owner the object to invoke the method on
 	 */
+	@SuppressWarnings("unchecked")
 	private void registerListenerMethod(Method method, Object owner) {
 		// Method must be public for us to call it
 		if (!Modifier.isPublic(method.getModifiers())) {
@@ -90,40 +86,46 @@ public class EventManager {
 
 
 
-	/**
-	 * Calls the event and propagates it to all listeners.
-	 * @param event the event
-	 * @param <E> the event
-	 */
+	@Override
 	@SuppressWarnings("unchecked")
-	public <E extends Event> void callEvent(E event) {
-		if (event instanceof Cancellable) {
-			callCancellableEvent(event);
-			return;
-		}
-		List<EventListener<?>> list = listeners.get(event.getClass());
-		if (list == null) return;
-		for (EventListener<?> listener : list) {
-			EventListener<E> cast = (EventListener<E>) listener;
-			cast.onEvent(event);
+	public <E extends Event> void registerEvent(Class<E> eventClass) {
+		listeners.putIfAbsent(eventClass, new ArrayList<>());
+		if (Event.class.isAssignableFrom(eventClass.getSuperclass())) {
+			registerEvent((Class<E>) eventClass.getSuperclass());
 		}
 	}
 
-	/**
-	 * Calls the event and propagates it to all listeners, while checking that it has not been cancelled.
-	 * @param event the event, MUST implement {@link Cancellable}
-	 * @param <E> the event
-	 * @throws ClassCastException if the event does not implement {@link Cancellable}
-	 */
+
+
+	@Override
+	public <E extends Event> void callEvent(E event) {
+		if (event instanceof Cancellable) {
+			callCancellableEvent(event, event.getClass(), (Cancellable) event);
+		} else {
+			callNonCancellableEvent(event, event.getClass());
+		}
+	}
+
 	@SuppressWarnings("unchecked")
-	private <E extends Event> void callCancellableEvent(E event) {
-		Cancellable cancellable = (Cancellable) event;
-		List<EventListener<?>> list = listeners.get(event.getClass());
-		if (list == null) return;
-		for (EventListener<?> listener : list) {
+	private <E extends Event> void callCancellableEvent(E event, Class<? extends Event> eventClass, Cancellable cancellable) {
+		for (EventListener<?> listener : listeners.get(eventClass)) {
 			EventListener<E> cast = (EventListener<E>) listener;
 			cast.onEvent(event);
-			if (cancellable.isCancelled()) break;
+			if (cancellable.isCancelled()) return;
+		}
+		if (Event.class.isAssignableFrom(eventClass.getSuperclass())) {
+			callCancellableEvent(event, (Class<E>) eventClass.getSuperclass(), cancellable);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private <E extends Event> void callNonCancellableEvent(E event, Class<? extends Event> eventClass) {
+		for (EventListener<?> listener : listeners.get(eventClass)) {
+			EventListener<E> cast = (EventListener<E>) listener;
+			cast.onEvent(event);
+		}
+		if (Event.class.isAssignableFrom(eventClass.getSuperclass())) {
+			callNonCancellableEvent(event, (Class<E>) eventClass.getSuperclass());
 		}
 	}
 
