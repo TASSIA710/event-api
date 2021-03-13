@@ -4,23 +4,37 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.tassia</groupId>
 	<artifactId>event-api</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.0</version>
 	<name>Event API</name>
 	<description>Simple event handling API for Java.</description>
-
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
 
 	<properties>
 		<maven.compiler.source>8</maven.compiler.source>
 		<maven.compiler.target>8</maven.compiler.target>
+		<kotlin.version>1.4.30</kotlin.version>
+		<dokka.version>1.4.20</dokka.version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>jcenter</id>
+			<url>https://jcenter.bintray.com</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib-jdk8</artifactId>
+			<version>${kotlin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-test-junit</artifactId>
+			<version>${kotlin.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 	<distributionManagement>
 		<repository>
@@ -29,5 +43,56 @@
 			<url>https://nexus.tassia.net/repository/maven-releases/</url>
 		</repository>
 	</distributionManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<artifactId>kotlin-maven-plugin</artifactId>
+				<version>${kotlin.version}</version>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>test-compile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>test-compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<jvmTarget>1.8</jvmTarget>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jetbrains.dokka</groupId>
+				<artifactId>dokka-maven-plugin</artifactId>
+				<version>${dokka.version}</version>
+				<executions>
+					<execution>
+						<phase>pre-site</phase>
+						<goals>
+							<goal>dokka</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<dokkaPlugins>
+						<plugin>
+							<groupId>org.jetbrains.dokka</groupId>
+							<artifactId>kotlin-as-java-plugin</artifactId>
+							<version>${dokka.version}</version>
+						</plugin>
+					</dokkaPlugins>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
