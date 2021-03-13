@@ -14,9 +14,11 @@
 ## Table of Contents
 
 1. [Using the Event API](#using-the-event-api)
-	1. [Registering event listeners](#registering-event-listeners)
-	2. [Calling events](#calling-events)
-	3. [Custom events](#custom-events)
+	1. [Registering event listeners (Method 1)](#registering-event-listeners)
+	2. [Registering event listeners (Method 2)](#registering-event-listeners-the-2nd-way)
+	3. [Registering event listeners (Method 3)](#registering-event-listeners-the-3rd-way)
+	4. [Calling events](#calling-events)
+	5. [Custom events](#custom-events)
 2. [Installation](#installation)
 3. [License](#license)
 
