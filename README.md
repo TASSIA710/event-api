@@ -184,11 +184,6 @@ if (!event.isCancelled()) {
 </dependency>
 ```
 
-3. Install dependencies
-```
-$ mvn install
-```
-
 
 
 ## License
