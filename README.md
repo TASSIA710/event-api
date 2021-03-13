@@ -4,7 +4,6 @@
 <p align="center">
 	<img src="https://img.shields.io/github/license/TASSIA710/event-api?label=License" alt="LICENSE">
 	<img src="https://img.shields.io/github/workflow/status/TASSIA710/event-api/Java%20CI?label=Java%20CI">
-	<img src="https://img.shields.io/github/workflow/status/TASSIA710/event-api/CodeQL?label=CodeQL">
 	<img src="https://img.shields.io/github/v/release/TASSIA710/event-api?label=Stable">
 	<img src="https://img.shields.io/github/v/release/TASSIA710/event-api?label=Preview&include_prereleases">
 </p>
