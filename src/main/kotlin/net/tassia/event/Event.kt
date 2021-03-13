@@ -1,10 +1,11 @@
-package net.tassia.event;
+package net.tassia.event
 
 /**
  * All events should extend from this class.
+ *
+ * @see Cancellable
+ *
  * @since EventAPI 1.0
  * @author Tassilo
- * @see Cancellable
  */
-public class Event {
-}
+open class Event
