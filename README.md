@@ -53,6 +53,70 @@ manager.registerListener(Event::class, YourEventListener())
 
 
 
+### Registering event listeners (the 2nd way)
+
+**Note:** This is the all-time recommended way of registering events.
+
+Create the listener:
+```kotlin
+import net.tassia.event.Event
+import net.tassia.event.EventListener
+
+class YourEventListener {
+
+	fun coolEventListener(event: Event) {
+		// Do something :)
+	}
+
+}
+```
+
+Register the listener:
+```kotlin
+import net.tassia.event.EventManager
+
+// ...
+
+val manager = EventManager.newDefault()
+val listener = YourEventListener()
+manager.registerListener(Event::class, listener::coolEventListener)
+```
+
+
+
+### Registering event listeners (the 3rd way)
+
+**Note:** This is not the recommended way to register events. It can cause weird behavior and unexpected bugs due to
+it heavily using reflection under the hood. This also adds a performance drawback.
+
+Create the listener:
+```kotlin
+import net.tassia.event.Event
+import net.tassia.event.EventHandler
+import net.tassia.event.EventListener
+
+class YourEventListener {
+
+	@EventHandler
+	fun listenForEvents(event: Event) {
+		// Do something :)
+	}
+
+}
+```
+
+Register the listener:
+```kotlin
+import net.tassia.event.EventManager
+
+// ...
+
+val manager = EventManager.newDefault()
+manager.registerListeners(YourEventListener())
+```
+
+
+
 ### Calling events
 
 Call an event:
