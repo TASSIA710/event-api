@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <h1 align="center">Event API</h1>
 <p align="center">Simple event handling API for Java.</p>
 
@@ -26,14 +27,14 @@
 ### Registering event listeners
 
 Create the listener:
-```java
-import net.tassia.event.Event;
-import net.tassia.event.EventListener;
+```kotlin
+import net.tassia.event.Event
+import net.tassia.event.EventListener
 
-public class YourEventListener implements EventListener<Event> {
+class YourEventListener : EventListener<Event> {
 
 	@Override
-	public void onEvent(Event event) {
+	fun onEvent(event: Event) {
 		// Do something :)
 	}
 
@@ -41,27 +42,27 @@ public class YourEventListener implements EventListener<Event> {
 ```
 
 Register the listener:
-```java
-import net.tassia.event.EventManager;
+```kotlin
+import net.tassia.event.EventManager
 
 // ...
 
-EventManager manager = new EventManager();
-manager.registerListener(Event.class, new YourEventListener());
+val manager = EventManager.newDefault()
+manager.registerListener(Event::class, YourEventListener())
 ```
 
 
 
 ### Calling events
 
-Call an event object:
-```java
-import net.tassia.event.EventManager;
+Call an event:
+```kotlin
+import net.tassia.event.EventManager
 
 // ...
 
-EventManager manager = new EventManager();
-manager.callEvent(new Event());
+val manager = EventManager.newDefault()
+manager.callEvent(Event())
 ```
 
 
@@ -69,50 +70,30 @@ manager.callEvent(new Event());
 ### Custom events
 
 Create a custom, cancellable event:
-```java
-import net.tassia.event.Cancellable;
-import net.tassia.event.Event;
+```kotlin
+import net.tassia.event.Cancellable
+import net.tassia.event.Event
 
-public class SendStringEvent extends Event implements Cancellable {
+data class SendStringEvent(
 
-	private boolean cancelled;
-	private String value;
+	var value: String
 
-	public SendStringEvent(String value) {
-		this.cancelled = false;
-		this.value = value;
-	}
+) : Event, Cancellable {
 
-	public void setValue() {
-		return value;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	@Override
-	public boolean isCancelled() {
-		return cancelled;
-	}
-
-	@Override
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
-	}
+	override var isCancelled = false
 
 }
 ```
 
 Call your event:
-```java
+```kotlin
 // Call the event
-SendStringEvent event = new SendStringEvent("Hello World!");
-eventManager.callEvent(event);
+val event = SendStringEvent("Hello World!")
+eventManager.callEvent(event)
 
 // Do your stuff with respect to the event
 if (!event.isCancelled()) {
-	YourSendStringMethod(event.getValue());
+	YourSendStringMethod(event.value)
 }
 ```
 
@@ -120,7 +101,7 @@ if (!event.isCancelled()) {
 
 ## Installation
 
-1. Add repository:
+1. Add the repository:
 ```xml
 <repository>
     <id>tassia-nexus</id>
