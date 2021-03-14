@@ -9,7 +9,14 @@ import kotlin.reflect.KClass
  * @since EventAPI 1.0
  * @author Tassilo
  */
-interface EventManager {
+abstract class EventManager {
+
+	/**
+	 * Registers a new event listener for the given event class.
+	 *
+	 * @param listener the event listener
+	 */
+	inline fun <reified E : Event> registerListener(listener: EventListener<E>) = registerListener(E::class, listener)
 
 	/**
 	 * Registers a new event listener for the given event class.
@@ -17,28 +24,33 @@ interface EventManager {
 	 * @param eventClass the event class
 	 * @param listener the event listener
 	 */
-	fun <E : Event> registerListener(eventClass: KClass<E>, listener: EventListener<E>)
+	abstract fun <E : Event> registerListener(eventClass: KClass<E>, listener: EventListener<E>)
 
 	/**
 	 * Registers all listeners (functions annotated with [EventHandler]) in the given object.
 	 *
 	 * @param listener the listener
 	 */
-	fun registerListeners(listener: Any)
+	abstract fun registerListeners(listener: Any)
+
+	/**
+	 * Registers a new event and prepares it for calling and accepting listeners.
+	 */
+	inline fun <reified E : Event> registerEvent() = registerEvent(E::class)
 
 	/**
 	 * Registers a new event and prepares it for calling and accepting listeners.
 	 *
 	 * @param eventClass the event class
 	 */
-	fun <E : Event> registerEvent(eventClass: KClass<E>)
+	abstract fun <E : Event> registerEvent(eventClass: KClass<E>)
 
 	/**
 	 * Calls the event and propagates it to all listeners.
 	 *
 	 * @param event the event
 	 */
-	fun <E : Event> callEvent(event: E)
+	abstract fun <E : Event> callEvent(event: E)
 
 
 
