@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
  * @since EventAPI 1.0
  * @author Tassilo
  */
-class EventManagerImpl : EventManager {
+class EventManagerImpl : EventManager() {
 
 	/**
 	 * The internal map that holds all registered events.
