@@ -1,6 +1,7 @@
 <!--suppress ALL -->
-<h1 align="center">Event API</h1>
-<p align="center">Simple event handling API for Java.</p>
+<img src="https://cdn.tassia.net/github/assets/TASSIA710/event-api.png" align="center" alt="event-api">
+
+---
 
 <p align="center">
 	<img src="https://img.shields.io/github/license/TASSIA710/event-api?label=License" alt="LICENSE">
